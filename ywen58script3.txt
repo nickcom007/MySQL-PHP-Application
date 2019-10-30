@@ -1,0 +1,36 @@
+--query 1
+SELECT lastname FROM patient;
+--query 2
+SELECT DISTINCT lastname FROM patient;
+--query 3
+SELECT * FROM doctor ORDER BY lastname;
+--query 4
+SELECT name,code FROM hospital WHERE numberofbeds > 1500;
+--query 5
+SELECT lastname,firstname FROM doctor,hospital
+WHERE doctor.hospitalcode = hospital.code
+AND hospital.name = 'St.Joseph';
+--query 6
+SELECT firstname,lastname FROM patient WHERE lastname LIKE 'G%';
+--query 7
+SELECT patient.firstname,patient.lastname FROM patient,treat,doctor
+WHERE patient.OHIP = treat.OHIP AND treat.license = doctor.license
+AND doctor.lastname = 'Clooney';
+--query 8
+SELECT name,city,lastname FROM hospital,doctor
+WHERE hospital.head = doctor.license;
+--query 9
+SELECT SUM(numberofbeds) AS "Total Number of Beds" FROM hospital;
+--query 10
+SELECT patient.firstname,doctor.firstname FROM patient,doctor,hospital,treat
+WHERE patient.OHIP = treat.OHIP AND treat.license = doctor.license
+AND doctor.license = hospital.head;
+--query 11
+SELECT lastname,firstname FROM doctor,hospital
+WHERE doctor.specialty = 'Surgeon' AND doctor.hospitalcode = hospital.code
+AND hospital.name = 'Victoria';
+--query 12
+SELECT firstname FROM doctor WHERE license NOT IN (SELECT license FROM treat);
+--query 13
+SELECT firstname,lastname FROM doctor WHERE license
+IN (SELECT license FROM treat GROUP BY license HAVING count(OHIP) > 1);
