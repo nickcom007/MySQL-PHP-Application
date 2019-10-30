@@ -1,22 +1,21 @@
 Warning: Using a password on the command line interface can be insecure.
-ERROR 1046 (3D000) at line 2: No database selected
-ERROR 1046 (3D000) at line 3: No database selected
-ERROR 1046 (3D000) at line 4: No database selected
-ERROR 1046 (3D000) at line 10: No database selected
-ERROR 1046 (3D000) at line 15: No database selected
-ERROR 1064 (42000) at line 17: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Show all the data in the doctor table
---and show all the data in the treats ta' at line 1
-ERROR 1046 (3D000) at line 20: No database selected
-ERROR 1064 (42000) at line 22: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Delete the doctor with a last name of Clooney
-DELETE FROM doctor WHERE lastnam' at line 1
-ERROR 1046 (3D000) at line 24: No database selected
-ERROR 1064 (42000) at line 25: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--FOREIGN KEY(license)
-      --REFERENCES doctor(license)
-      --ON DELETE CASC' at line 1
 --------------
 SELECT * FROM doctor
 --------------
 
++-----------+------------+---------+-------------+--------------+--------------+
+| firstname | lastname   | license | licensedate | specialty    | hospitalcode |
++-----------+------------+---------+-------------+--------------+--------------+
+| Joey      | Shabado    | GD56    | 1960-06-24  | Podiatrist   | BBC          |
+| Mandy     | Webster    | JK78    | 1990-08-08  | Surgeon      | BBC          |
+| Doctor    | Strange    | MV01    | 2016-11-04  | Avengers     | ABC          |
+| Bernie    | Kavorikian | RD34    | 1980-09-09  | Urologist    | BBC          |
+| Colleen   | Aziz       | SE66    | 1989-08-24  | Surgeon      | ABC          |
+| Ben       | Spock      | YT67    | 1955-02-20  | Pediatrician | DDE          |
++-----------+------------+---------+-------------+--------------+--------------+
+6 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 4: Cannot delete or update a parent row: a foreign key constraint fails (`ywen58assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`head`) REFERENCES `doctor` (`license`))
 --------------
 DELETE FROM doctor WHERE licensedate < '1965-01-01'
 --------------
@@ -25,6 +24,19 @@ DELETE FROM doctor WHERE licensedate < '1965-01-01'
 SELECT * FROM doctor
 --------------
 
++-----------+------------+---------+-------------+--------------+--------------+
+| firstname | lastname   | license | licensedate | specialty    | hospitalcode |
++-----------+------------+---------+-------------+--------------+--------------+
+| Joey      | Shabado    | GD56    | 1960-06-24  | Podiatrist   | BBC          |
+| Mandy     | Webster    | JK78    | 1990-08-08  | Surgeon      | BBC          |
+| Doctor    | Strange    | MV01    | 2016-11-04  | Avengers     | ABC          |
+| Bernie    | Kavorikian | RD34    | 1980-09-09  | Urologist    | BBC          |
+| Colleen   | Aziz       | SE66    | 1989-08-24  | Surgeon      | ABC          |
+| Ben       | Spock      | YT67    | 1955-02-20  | Pediatrician | DDE          |
++-----------+------------+---------+-------------+--------------+--------------+
+6 rows in set (0.00 sec)
+
+ERROR 1050 (42S01) at line 9: Table 'head_patient' already exists
 --------------
 CREATE VIEW head_patient AS
 SELECT patient.firstname,patient.lastname,doctor.lastname AS 'Doctor Lastname',hospital.name
@@ -37,30 +49,73 @@ AND hospital.headdate > '1995-12-31' AND doctor.license = hospital.head
 SELECT * FROM head_patient
 --------------
 
++-----------+----------+-----------------+-----------+
+| firstname | lastname | Doctor Lastname | name      |
++-----------+----------+-----------------+-----------+
+| Bill      | Gellar   | Shabado         | St.Joseph |
+| Colleen   | Gellar   | Shabado         | St.Joseph |
+| Scotty    | Bing     | Shabado         | St.Joseph |
++-----------+----------+-----------------+-----------+
+3 rows in set (0.01 sec)
+
 --------------
---Show all the data in the doctor table
---and show all the data in the treats table
 SELECT * FROM doctor
 --------------
+
++-----------+------------+---------+-------------+--------------+--------------+
+| firstname | lastname   | license | licensedate | specialty    | hospitalcode |
++-----------+------------+---------+-------------+--------------+--------------+
+| Joey      | Shabado    | GD56    | 1960-06-24  | Podiatrist   | BBC          |
+| Mandy     | Webster    | JK78    | 1990-08-08  | Surgeon      | BBC          |
+| Doctor    | Strange    | MV01    | 2016-11-04  | Avengers     | ABC          |
+| Bernie    | Kavorikian | RD34    | 1980-09-09  | Urologist    | BBC          |
+| Colleen   | Aziz       | SE66    | 1989-08-24  | Surgeon      | ABC          |
+| Ben       | Spock      | YT67    | 1955-02-20  | Pediatrician | DDE          |
++-----------+------------+---------+-------------+--------------+--------------+
+6 rows in set (0.00 sec)
 
 --------------
 SELECT * FROM treat
 --------------
 
++-----------+---------+
+| OHIP      | license |
++-----------+---------+
+| 110112113 | GD56    |
+| 444555666 | JK78    |
+| 111222333 | SE66    |
+| 111222333 | JK78    |
+| 333444555 | GD56    |
+| 667766777 | JK78    |
+| 667766777 | GD56    |
+| 987654321 | MV01    |
++-----------+---------+
+8 rows in set (0.00 sec)
+
 --------------
---Delete the doctor with a last name of Clooney
 DELETE FROM doctor WHERE lastname = 'Clooney'
 --------------
+
+Query OK, 0 rows affected (0.00 sec)
 
 --------------
 SELECT * FROM doctor
 --------------
 
---------------
---FOREIGN KEY(license)
-      --REFERENCES doctor(license)
-      --ON DELETE CASCADE
++-----------+------------+---------+-------------+--------------+--------------+
+| firstname | lastname   | license | licensedate | specialty    | hospitalcode |
++-----------+------------+---------+-------------+--------------+--------------+
+| Joey      | Shabado    | GD56    | 1960-06-24  | Podiatrist   | BBC          |
+| Mandy     | Webster    | JK78    | 1990-08-08  | Surgeon      | BBC          |
+| Doctor    | Strange    | MV01    | 2016-11-04  | Avengers     | ABC          |
+| Bernie    | Kavorikian | RD34    | 1980-09-09  | Urologist    | BBC          |
+| Colleen   | Aziz       | SE66    | 1989-08-24  | Surgeon      | ABC          |
+| Ben       | Spock      | YT67    | 1955-02-20  | Pediatrician | DDE          |
++-----------+------------+---------+-------------+--------------+--------------+
+6 rows in set (0.00 sec)
 
+ERROR 1451 (23000) at line 28: Cannot delete or update a parent row: a foreign key constraint fails (`ywen58assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`head`) REFERENCES `doctor` (`license`))
+--------------
 DELETE FROM doctor WHERE specialty = 'Surgeon'
 --------------
 

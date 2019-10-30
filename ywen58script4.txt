@@ -1,12 +1,11 @@
--- delete Jan 1, 1965
+USE ywen58assign2db
+/* delete Jan 1, 1965*/
 SELECT * FROM doctor;
 DELETE FROM doctor WHERE licensedate < '1965-01-01';
 SELECT * FROM doctor;
--- error with DELETE because in treat relationship, all doctors licenses
--- are referenced by treat and hospital tables
+/*error with DELETE because in treat relationship, all doctors licenses
+ are referenced by treat and hospital tables */
 
-
--- create view
 CREATE VIEW head_patient AS
 SELECT patient.firstname,patient.lastname,doctor.lastname AS 'Doctor Lastname',hospital.name
 FROM patient,treat,hospital,doctor
@@ -14,18 +13,18 @@ WHERE patient.OHIP = treat.OHIP AND treat.license = hospital.head
 AND hospital.headdate > '1995-12-31' AND doctor.license = hospital.head;
 SELECT * FROM head_patient;
 
---Show all the data in the doctor table
---and show all the data in the treats table
+/* Show all the data in the doctor table
+and show all the data in the treats table */
 SELECT * FROM doctor;
 SELECT * FROM treat;
 
---Delete the doctor with a last name of Clooney
+/*Delete the doctor with a last name of Clooney*/
 DELETE FROM doctor WHERE lastname = 'Clooney';
 SELECT * FROM doctor;
---FOREIGN KEY(license)
+/*FOREIGN KEY(license)
       --REFERENCES doctor(license)
       --ON DELETE CASCADE
--- try DELETE all surgeon
+-- try DELETE all surgeon*/
 DELETE FROM doctor WHERE specialty = 'Surgeon';
--- fail because one of the surgeon is head of hospital
+/*fail because one of the surgeon is head of hospital*/
   

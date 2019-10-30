@@ -1,108 +1,190 @@
 Warning: Using a password on the command line interface can be insecure.
-ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 1
-SELECT lastname FROM patient' at line 1
-ERROR 1064 (42000) at line 3: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 2
-SELECT DISTINCT lastname FROM patient' at line 1
-ERROR 1064 (42000) at line 5: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 3
-SELECT * FROM doctor ORDER BY lastname' at line 1
-ERROR 1064 (42000) at line 7: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 4
-SELECT name,code FROM hospital WHERE numberofbeds > 1500' at line 1
-ERROR 1064 (42000) at line 9: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 5
-SELECT lastname,firstname FROM doctor,hospital
-WHERE doctor.hospitalco' at line 1
-ERROR 1064 (42000) at line 13: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 6
-SELECT firstname,lastname FROM patient WHERE lastname LIKE 'G%'' at line 1
-ERROR 1064 (42000) at line 15: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 7
-SELECT patient.firstname,patient.lastname FROM patient,treat,doctor
-WH' at line 1
-ERROR 1064 (42000) at line 19: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 8
-SELECT name,city,lastname FROM hospital,doctor
-WHERE hospital.head = d' at line 1
-ERROR 1064 (42000) at line 22: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 9
-SELECT SUM(numberofbeds) AS "Total Number of Beds" FROM hospital' at line 1
-ERROR 1064 (42000) at line 24: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 10
-SELECT patient.firstname,doctor.firstname FROM patient,doctor,hospita' at line 1
-ERROR 1064 (42000) at line 28: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 11
-SELECT lastname,firstname FROM doctor,hospital
-WHERE doctor.specialty' at line 1
-ERROR 1064 (42000) at line 32: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 12
-SELECT firstname FROM doctor WHERE license NOT IN (SELECT license FRO' at line 1
-ERROR 1064 (42000) at line 34: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--query 13
-SELECT firstname,lastname FROM doctor WHERE license
-IN (SELECT licens' at line 1
 --------------
---query 1
 SELECT lastname FROM patient
 --------------
 
++----------+
+| lastname |
++----------+
+| NULL     |
+| Gellar   |
+| Brown    |
+| Green    |
+| Gellar   |
+| Gellar   |
+| Bing     |
+| Wen      |
++----------+
+8 rows in set (0.00 sec)
+
 --------------
---query 2
 SELECT DISTINCT lastname FROM patient
 --------------
 
++----------+
+| lastname |
++----------+
+| NULL     |
+| Gellar   |
+| Brown    |
+| Green    |
+| Bing     |
+| Wen      |
++----------+
+6 rows in set (0.00 sec)
+
 --------------
---query 3
 SELECT * FROM doctor ORDER BY lastname
 --------------
 
++-----------+------------+---------+-------------+--------------+--------------+
+| firstname | lastname   | license | licensedate | specialty    | hospitalcode |
++-----------+------------+---------+-------------+--------------+--------------+
+| Colleen   | Aziz       | SE66    | 1989-08-24  | Surgeon      | ABC          |
+| Ross      | Clooney    | HT45    | 1987-06-20  | Surgeon      | DDE          |
+| Bernie    | Kavorikian | RD34    | 1980-09-09  | Urologist    | BBC          |
+| Joey      | Shabado    | GD56    | 1960-06-24  | Podiatrist   | BBC          |
+| Ben       | Spock      | YT67    | 1955-02-20  | Pediatrician | DDE          |
+| Doctor    | Strange    | MV01    | 2016-11-04  | Avengers     | ABC          |
+| Mandy     | Webster    | JK78    | 1990-08-08  | Surgeon      | BBC          |
++-----------+------------+---------+-------------+--------------+--------------+
+7 rows in set (0.00 sec)
+
 --------------
---query 4
 SELECT name,code FROM hospital WHERE numberofbeds > 1500
 --------------
 
++----------+------+
+| name     | code |
++----------+------+
+| Victoria | ABC  |
++----------+------+
+1 row in set (0.00 sec)
+
 --------------
---query 5
 SELECT lastname,firstname FROM doctor,hospital
 WHERE doctor.hospitalcode = hospital.code
 AND hospital.name = 'St.Joseph'
 --------------
 
++------------+-----------+
+| lastname   | firstname |
++------------+-----------+
+| Shabado    | Joey      |
+| Webster    | Mandy     |
+| Kavorikian | Bernie    |
++------------+-----------+
+3 rows in set (0.00 sec)
+
 --------------
---query 6
 SELECT firstname,lastname FROM patient WHERE lastname LIKE 'G%'
 --------------
 
++-----------+----------+
+| firstname | lastname |
++-----------+----------+
+| Bill      | Gellar   |
+| Jon       | Green    |
+| Colleen   | Gellar   |
+| Sean      | Gellar   |
++-----------+----------+
+4 rows in set (0.00 sec)
+
 --------------
---query 7
 SELECT patient.firstname,patient.lastname FROM patient,treat,doctor
 WHERE patient.OHIP = treat.OHIP AND treat.license = doctor.license
 AND doctor.lastname = 'Clooney'
 --------------
 
++-----------+----------+
+| firstname | lastname |
++-----------+----------+
+| Sean      | Gellar   |
+| Jon       | Green    |
+| Scotty    | Bing     |
+| Suzi      | Brown    |
++-----------+----------+
+4 rows in set (0.00 sec)
+
 --------------
---query 8
 SELECT name,city,lastname FROM hospital,doctor
 WHERE hospital.head = doctor.license
 --------------
 
++-----------+----------+----------+
+| name      | city     | lastname |
++-----------+----------+----------+
+| Victoria  | London   | Aziz     |
+| St.Joseph | London   | Shabado  |
+| Victoria  | Victoria | Spock    |
++-----------+----------+----------+
+3 rows in set (0.00 sec)
+
 --------------
---query 9
 SELECT SUM(numberofbeds) AS "Total Number of Beds" FROM hospital
 --------------
 
++----------------------+
+| Total Number of Beds |
++----------------------+
+|                 3800 |
++----------------------+
+1 row in set (0.00 sec)
+
 --------------
---query 10
 SELECT patient.firstname,doctor.firstname FROM patient,doctor,hospital,treat
 WHERE patient.OHIP = treat.OHIP AND treat.license = doctor.license
 AND doctor.license = hospital.head
 --------------
 
++-----------+-----------+
+| firstname | firstname |
++-----------+-----------+
+| Bill      | Joey      |
+| Colleen   | Joey      |
+| Scotty    | Joey      |
+| Jon       | Colleen   |
++-----------+-----------+
+4 rows in set (0.00 sec)
+
 --------------
---query 11
 SELECT lastname,firstname FROM doctor,hospital
 WHERE doctor.specialty = 'Surgeon' AND doctor.hospitalcode = hospital.code
 AND hospital.name = 'Victoria'
 --------------
 
++----------+-----------+
+| lastname | firstname |
++----------+-----------+
+| Clooney  | Ross      |
+| Aziz     | Colleen   |
++----------+-----------+
+2 rows in set (0.00 sec)
+
 --------------
---query 12
 SELECT firstname FROM doctor WHERE license NOT IN (SELECT license FROM treat)
 --------------
 
++-----------+
+| firstname |
++-----------+
+| Bernie    |
+| Ben       |
++-----------+
+2 rows in set (0.00 sec)
+
 --------------
---query 13
 SELECT firstname,lastname FROM doctor WHERE license
 IN (SELECT license FROM treat GROUP BY license HAVING count(OHIP) > 1)
 --------------
+
++-----------+----------+
+| firstname | lastname |
++-----------+----------+
+| Joey      | Shabado  |
+| Ross      | Clooney  |
+| Mandy     | Webster  |
++-----------+----------+
+3 rows in set (0.00 sec)
 
 Bye
