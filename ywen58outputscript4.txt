@@ -1,0 +1,67 @@
+Warning: Using a password on the command line interface can be insecure.
+ERROR 1046 (3D000) at line 2: No database selected
+ERROR 1046 (3D000) at line 3: No database selected
+ERROR 1046 (3D000) at line 4: No database selected
+ERROR 1046 (3D000) at line 10: No database selected
+ERROR 1046 (3D000) at line 15: No database selected
+ERROR 1064 (42000) at line 17: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Show all the data in the doctor table
+--and show all the data in the treats ta' at line 1
+ERROR 1046 (3D000) at line 20: No database selected
+ERROR 1064 (42000) at line 22: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Delete the doctor with a last name of Clooney
+DELETE FROM doctor WHERE lastnam' at line 1
+ERROR 1046 (3D000) at line 24: No database selected
+ERROR 1064 (42000) at line 25: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--FOREIGN KEY(license)
+      --REFERENCES doctor(license)
+      --ON DELETE CASC' at line 1
+--------------
+SELECT * FROM doctor
+--------------
+
+--------------
+DELETE FROM doctor WHERE licensedate < '1965-01-01'
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
+--------------
+CREATE VIEW head_patient AS
+SELECT patient.firstname,patient.lastname,doctor.lastname AS 'Doctor Lastname',hospital.name
+FROM patient,treat,hospital,doctor
+WHERE patient.OHIP = treat.OHIP AND treat.license = hospital.head
+AND hospital.headdate > '1995-12-31' AND doctor.license = hospital.head
+--------------
+
+--------------
+SELECT * FROM head_patient
+--------------
+
+--------------
+--Show all the data in the doctor table
+--and show all the data in the treats table
+SELECT * FROM doctor
+--------------
+
+--------------
+SELECT * FROM treat
+--------------
+
+--------------
+--Delete the doctor with a last name of Clooney
+DELETE FROM doctor WHERE lastname = 'Clooney'
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
+--------------
+--FOREIGN KEY(license)
+      --REFERENCES doctor(license)
+      --ON DELETE CASCADE
+
+DELETE FROM doctor WHERE specialty = 'Surgeon'
+--------------
+
+Bye

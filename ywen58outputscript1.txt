@@ -1,0 +1,125 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW DATABASES
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mycompany          |
+| mysql              |
+| performance_schema |
+| testdb             |
+| vetdb              |
+| vetoffice          |
+| ywen58assign2db    |
++--------------------+
+8 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS ywen58assign2db
+--------------
+
+Query OK, 5 rows affected (0.12 sec)
+
+--------------
+CREATE DATABASE ywen58assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT ALL PRIVILEGES ON ywen58assign2db.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE doctor (firstname VARCHAR(20), lastname VARCHAR(20), license CHAR(4), licensedate DATE,
+specialty VARCHAR(30), hospitalcode CHAR(3), PRIMARY KEY(license))
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE hospital (name VARCHAR(20), city VARCHAR(20), province CHAR(2), numberofbeds INT NOT NULL,
+code CHAR(3), head CHAR(4), headdate DATE, PRIMARY KEY(code),
+FOREIGN KEY(head) REFERENCES doctor(license))
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+ALTER TABLE doctor
+ADD FOREIGN KEY (hospitalcode) REFERENCES hospital(code)
+--------------
+
+Query OK, 0 rows affected (0.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE patient (OHIP CHAR(9), firstname VARCHAR(20), lastname VARCHAR(20), PRIMARY KEY(OHIP))
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE treat (
+    OHIP CHAR(9),
+    license CHAR(4),
+    FOREIGN KEY(OHIP)
+        REFERENCES patient(OHIP),
+    FOREIGN KEY(license)
+        REFERENCES doctor(license)
+        ON DELETE CASCADE
+)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++---------------------------+
+| Tables_in_ywen58assign2db |
++---------------------------+
+| doctor                    |
+| hospital                  |
+| patient                   |
+| treat                     |
++---------------------------+
+4 rows in set (0.00 sec)
+
+Bye
